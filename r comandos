@@ -1,0 +1,360 @@
+install.packages(c("readxl", "dplyr"))
+library(readxl)
+library(dplyr)
+excel_sheets("excel_prueba.xlsx")
+
+
+Primera pesta�a - iris
+
+Usaremos la funci�n read_excel indicando la ruta del documento que queremos importar a nuestro espacio de trabajo de R, sin par�metros adicionales. Asignaremos el resultado de esta funci�n al objeto excel_iris.
+
+excel_iris <- read_excel("excel_prueba.xlsx")
+
+Realizamos la exploraci�n del objeto que tenemos. Veremos su estructura (str), un resumen de su contenido (summary), y sus primeros (head) y �ltimos (tail) renglones.
+
+excel_iris %>% str()
+
+## Classes 'tbl_df', 'tbl' and 'data.frame':    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : chr  "setosa" "setosa" "setosa" "setosa" ...
+
+excel_iris %>% summary()
+
+##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##    Species         
+##  Length:150        
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
+
+excel_iris %>% head()
+
+## Source: local data frame [6 x 5]
+## 
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          <dbl>       <dbl>        <dbl>       <dbl>   <chr>
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+
+excel_iris %>% tail()
+
+## Source: local data frame [6 x 5]
+## 
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+##          <dbl>       <dbl>        <dbl>       <dbl>     <chr>
+## 1          6.7         3.3          5.7         2.5 virginica
+## 2          6.7         3.0          5.2         2.3 virginica
+## 3          6.3         2.5          5.0         1.9 virginica
+## 4          6.5         3.0          5.2         2.0 virginica
+## 5          6.2         3.4          5.4         2.3 virginica
+## 6          5.9         3.0          5.1         1.8 virginica
+
+�Estupendo! Todo indica que hemos importado correctamente la primera pesta�a de nuestra hoja de c�lculo, aunque por lo general, es raro encontrarnos con hojas de c�lculo con una estructura ordenada como esta y que todo marche tan f�cilmente.
+
+A�n tenemos que importar un par de pesta�as por importar que ilustrar�n lo anterior
+Segunda pesta�a - women
+
+Importaremos la segunda pesta�a usando la misma funci�n read_excel, asignando un valor al par�metro sheet.
+
+Este par�metro nos permite determinar qu� pesta�a queremos importar. Podemos indicar la pesta�a que deseemos con un n�mero, en nuestro caso con tres pesta�as, de la 1 a la 3; o podemos indicar la pesta�a que deseamos con su nombre,
+
+Importaremos la segunda pesta�a usando su nombre, que conocimos al usar la funci�n excel_sheets, y la asignamos al objeto excel_women.
+
+excel_women <- read_excel("excel_prueba.xlsx", sheet = "women")
+
+Realizamos la misma exploraci�n que la primera pesta�a.
+
+str(excel_women)
+
+## Classes 'tbl_df', 'tbl' and 'data.frame':    14 obs. of  2 variables:
+##  $ 58 : num  59 60 61 62 63 64 65 66 67 68 ...
+##  $ 115: num  117 120 123 126 129 132 135 139 142 146 ...
+
+summary(excel_women)
+
+##        58             115       
+##  Min.   :59.00   Min.   :117.0  
+##  1st Qu.:62.25   1st Qu.:126.8  
+##  Median :65.50   Median :137.0  
+##  Mean   :65.50   Mean   :138.3  
+##  3rd Qu.:68.75   3rd Qu.:149.0  
+##  Max.   :72.00   Max.   :164.0
+
+head(excel_women)
+
+## Source: local data frame [6 x 2]
+## 
+##      58   115
+##   <dbl> <dbl>
+## 1    59   117
+## 2    60   120
+## 3    61   123
+## 4    62   126
+## 5    63   129
+## 6    64   132
+
+tail(excel_women)
+
+## Source: local data frame [6 x 2]
+## 
+##      58   115
+##   <dbl> <dbl>
+## 1    67   142
+## 2    68   146
+## 3    69   150
+## 4    70   154
+## 5    71   159
+## 6    72   164
+
+Al parecer, se han importado correctamente los datos, pero con un problema. Los nombres de las columnas no son los correctos.
+
+Esto se debe a que las columnas de esta pesta�a no tienen encabezado, entonces al importarla se toman como nombres de columna los valores del primer rengl�n.
+
+Podemos comprobar esto usando la funci�n names.
+
+names(excel_women)
+
+## [1] "58"  "115"
+
+Existen dos soluciones a este problema.
+
+La primera, si no conocemos los nombres que deben tener las columnas, es usar el par�metro col_names con valor igual a FALSE. De este modo, a cada columna se le asignar� como nombre de X0 hasta Xn, donde n es el n�mero de columnas que tengamos.
+
+read_excel("excel_prueba.xlsx", sheet = "women", col_names = FALSE)
+
+## Source: local data frame [15 x 2]
+## 
+##       X0    X1
+##    <dbl> <dbl>
+## 1     58   115
+## 2     59   117
+## 3     60   120
+## 4     61   123
+## 5     62   126
+## 6     63   129
+## 7     64   132
+## 8     65   135
+## 9     66   139
+## 10    67   142
+## 11    68   146
+## 12    69   150
+## 13    70   154
+## 14    71   159
+## 15    72   164
+
+La segunda, si conocemos los nombres de las columnas, es usar col_names con valor igual a un vector de texto con los nombres de las columnas.
+
+En esta pesta�a, la primera columna son estaturas y la segunda son pesos, as� que usaremos la segunda soluci�n y asignaremos su resultado al objeto excel_woman.
+
+excel_women <- 
+  read_excel(
+    "excel_prueba.xlsx", 
+    sheet = "women", 
+    col_names = c("estatura", "peso")
+    )
+
+excel_women %>% names
+
+## [1] "estatura" "peso"
+
+Si usamos de nuevo las funciones str, summary, head y tail comprobaremos que los datos se han importado correctamente a R.
+
+Ahora pasemos a la tercera pesta�a, m�s complicada que las dos primeras
+Tercera pesta�a - airquality
+
+Intentemos abrir la tercera pesta�a por su nombre y veamos sus primeros diez renglones usando head con el par�metro n igual a 10. Como podr�s ver, podemos usar el operador %>% para realizar estas tareas en secuencia, sin necesidad de asignar ning�n resultado a un objeto.
+
+read_excel(
+  "excel_prueba.xlsx", 
+  sheet = "airquality"
+  ) %>% 
+  head(n = 10)
+
+## Source: local data frame [10 x 11]
+## 
+##                   Calidad del aire    NA       NA     NA    NA
+##                              <chr> <chr>    <chr>  <chr> <chr>
+## 1                               NA    NA       NA     NA    NA
+## 2  Mediciones de Mayo a Septiembre    NA       NA     NA    NA
+## 3                               NA Ozono Sorlar.R Biento  Temp
+## 4                                1    41      190    7.4    67
+## 5                                2    36      118      8    72
+## 6                                3    12      149   12.6    74
+## 7                                4    18      313   11.5    62
+## 8                                5     -        -   14.3    56
+## 9                                6    28        -   14.9    66
+## 10                               7    23      299    8.6    65
+## Variables not shown: NA <chr>, NA <chr>, NA <chr>, NA <chr>, NA <chr>, NA
+##   <chr>.
+
+El resultado no luce bien.
+
+Veamos la estructura de lo que estamos importando.
+
+read_excel(
+  "excel_prueba.xlsx", 
+  sheet = "airquality"
+  ) %>% 
+  str()
+
+## Classes 'tbl_df', 'tbl' and 'data.frame':    156 obs. of  11 variables:
+##  $ Calidad del aire: chr  NA "Mediciones de Mayo a Septiembre" NA "1" ...
+##  $ NA              : chr  NA NA "Ozono" "41" ...
+##  $ NA              : chr  NA NA "Sorlar.R" "190" ...
+##  $ NA              : chr  NA NA "Biento" "7.4" ...
+##  $ NA              : chr  NA NA "Temp" "67" ...
+##  $ NA              : chr  NA NA "Observaciones" NA ...
+##  $ NA              : chr  NA NA "Fecha" "42125" ...
+##  $ NA              : chr  NA NA "Mes" "5" ...
+##  $ NA              : chr  NA NA "Dia" "1" ...
+##  $ NA              : chr  NA NA "A�o" "2015" ...
+##  $ NA              : chr  NA NA "Fechas" NA ...
+
+Definitivamente algo anda mal. Si usas las funciones str, summary y tail podr�s comprobar esto con mayor certeza.
+
+Si abrimos con Excel u otra aplicaci�n similar la hoja de c�lculo con la que estamos trabajando, nos daremos cuenta que la pesta�a airquality tiene celdas combinadas, encabezados, espacio en blanco y otros elementos que no es necesario conservar al importar a R.
+
+Esto es algo com�n al trabajar con las hojas de c�lculo, pues todos estos elementos suelen ser usados para mejorar la presentaci�n de la informaci�n o para prepararla para imprimirla en papel. Desde luego, esto no representa un conjunto de datos ordenados, as� que hay que hacer ajustes.
+
+Usaremos el par�metro skip con un valor igual a 3 para omitir la lectura de los tres primeros renglones, los cuales contienen t�tulos y subt�tulos de la pesta�a. De nuevo usaremos head para ver s�lo los diez primeros renglones de la pesta�a.
+
+read_excel(
+  "excel_prueba.xlsx", 
+  sheet = "airquality",
+  skip = 3) %>%
+  head(10)
+
+## Source: local data frame [10 x 11]
+## 
+##       NA Ozono Sorlar.R Biento  Temp Observaciones      Fecha   Mes   Dia
+##    <dbl> <chr>    <chr>  <dbl> <dbl>         <dbl>     <time> <dbl> <dbl>
+## 1      1    41      190    7.4    67            NA 2015-05-01     5     1
+## 2      2    36      118    8.0    72            NA 2015-05-02     5     2
+## 3      3    12      149   12.6    74            NA 2015-05-03     5     3
+## 4      4    18      313   11.5    62            NA 2015-05-04     5     4
+## 5      5     -        -   14.3    56            NA 2015-05-05     5     5
+## 6      6    28        -   14.9    66            NA 2015-05-06     5     6
+## 7      7    23      299    8.6    65            NA 2015-05-07     5     7
+## 8      8    19       99   13.8    59            NA 2015-05-08     5     8
+## 9      9     8       19   20.1    61            NA 2015-05-09     5     9
+## 10    10     -      194    8.6    69            NA 2015-05-10     5    10
+## Variables not shown: A�o <dbl>, Fechas <dbl>.
+
+Luce mucho mejor, pero a�n tenemos problemas a resolver.
+Problemas
+
+    En lugar de NA para indicar valores perdidos, se ha usado un guion (-). Esta es la raz�n por la que las columnas donde tenemos n�meros han sido identificadas como si su contenido fuera texto.
+    La columna fecha aparece con datos perdidos pero deber�a contener fechas.
+    La primera columna contiene el n�mero de rengl�n de las observaciones en esta hoja. Esto es redundante con el n�mero de rengl�n que se ha asigna al importar a R.
+    Tenemos columnas con un nombre, pero sin contenido, puesto que originalmente era una enorme celda combinada.
+    Algunas columnas tienen nombres mal escritos o incorrectos. Por ejemplo: biento en lugar de viento.
+
+Por fortuna, todos estos problemas tienen soluci�n.
+Soluciones
+
+    Usaremos el par�metro na con un valor igual a -. De esta manera, indicamos que los datos perdidos se han codificado con un guion.
+    Asignaremos al par�metro col_types un vector de texto indicando el tipo de datos que contiene cada columna. Podemos elegir entre los valores �numeric�, �text�, �date� o �blank�, usando un valor para cada columna. De este modo, elegiremos �date� para la columna fecha y �numeric� para las dem�s.
+    Si deseamos que una columna sea omitida al importar una hoja, le asignamos el valor "blank" a col_types. Esto es lo que haremos con la primera columna y las columnas sin datos.
+    Asignaremos los nombres correctos de las columnas con col_names, como lo hicimos en la segunda pesta�a. Usaremos NA como nombre de las columnas que omitiremos.
+
+Resultado
+
+Combinamos las soluciones y vemos los primeros diez renglones de la tercera pesta�a.
+
+read_excel(
+  "excel_prueba.xlsx", 
+  sheet = "airquality", 
+  skip = 4, 
+  na = "-",
+  col_types = c("blank", "blank", "numeric", "numeric", "numeric", "numeric", "blank", "date", "numeric", "numeric", "numeric", "blank"),
+  col_names = c(NA, NA, "ozono", "rad_solar", "viento", "temp", NA, "fecha", "dia", "a�o", "mes", NA)
+  ) %>% 
+  head(10)
+
+## Source: local data frame [10 x 8]
+## 
+##    ozono rad_solar viento  temp      fecha   dia   a�o   mes
+##    <dbl>     <dbl>  <dbl> <dbl>     <time> <dbl> <dbl> <dbl>
+## 1     41       190    7.4    67 2015-05-01     5     1  2015
+## 2     36       118    8.0    72 2015-05-02     5     2  2015
+## 3     12       149   12.6    74 2015-05-03     5     3  2015
+## 4     18       313   11.5    62 2015-05-04     5     4  2015
+## 5     NA        NA   14.3    56 2015-05-05     5     5  2015
+## 6     28        NA   14.9    66 2015-05-06     5     6  2015
+## 7     23       299    8.6    65 2015-05-07     5     7  2015
+## 8     19        99   13.8    59 2015-05-08     5     8  2015
+## 9      8        19   20.1    61 2015-05-09     5     9  2015
+## 10    NA       194    8.6    69 2015-05-10     5    10  2015
+
+�Excelente! El resultado luce satisfactorio as� que lo que asignaremos al objeto excel_airquality y veamos su estructura, resumen y �ltimas columnas.
+
+excel_airquality <- 
+  read_excel(
+  "excel_prueba.xlsx", 
+  sheet = "airquality", 
+  skip = 4, 
+  na = "-",
+  col_types = c("blank", "blank", "numeric", "numeric", "numeric", "numeric", "blank", "date", "numeric", "numeric", "numeric", "blank"),
+  col_names = c(NA, NA, "ozono", "rad_solar", "viento", "temp", NA, "fecha", "dia", "a�o", "mes", NA)
+  )
+
+excel_airquality %>% str()
+
+## Classes 'tbl_df', 'tbl' and 'data.frame':    153 obs. of  8 variables:
+##  $ ozono    : num  41 36 12 18 NA 28 23 19 8 NA ...
+##  $ rad_solar: num  190 118 149 313 NA NA 299 99 19 194 ...
+##  $ viento   : num  7.4 8 12.6 11.5 14.3 14.9 8.6 13.8 20.1 8.6 ...
+##  $ temp     : num  67 72 74 62 56 66 65 59 61 69 ...
+##  $ fecha    : POSIXct, format: "2015-05-01" "2015-05-02" ...
+##  $ dia      : num  5 5 5 5 5 5 5 5 5 5 ...
+##  $ a�o      : num  1 2 3 4 5 6 7 8 9 10 ...
+##  $ mes      : num  2015 2015 2015 2015 2015 ...
+
+excel_airquality %>% summary()
+
+##      ozono          rad_solar         viento            temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA's   :37       NA's   :7                                       
+##      fecha                 dia             a�o            mes      
+##  Min.   :2015-05-01   Min.   :5.000   Min.   : 1.0   Min.   :2015  
+##  1st Qu.:2015-06-08   1st Qu.:6.000   1st Qu.: 8.0   1st Qu.:2015  
+##  Median :2015-07-16   Median :7.000   Median :16.0   Median :2015  
+##  Mean   :2015-07-16   Mean   :6.993   Mean   :15.8   Mean   :2015  
+##  3rd Qu.:2015-08-23   3rd Qu.:8.000   3rd Qu.:23.0   3rd Qu.:2015  
+##  Max.   :2015-09-30   Max.   :9.000   Max.   :31.0   Max.   :2015  
+## 
+
+excel_airquality %>% tail()
+
+## Source: local data frame [6 x 8]
+## 
+##   ozono rad_solar viento  temp      fecha   dia   a�o   mes
+##   <dbl>     <dbl>  <dbl> <dbl>     <time> <dbl> <dbl> <dbl>
+## 1    14        20   16.6    63 2015-09-25     9    25  2015
+## 2    30       193    6.9    70 2015-09-26     9    26  2015
+## 3    NA       145   13.2    77 2015-09-27     9    27  2015
+## 4    14       191   14.3    75 2015-09-28     9    28  2015
+## 5    18       131    8.0    76 2015-09-29     9    29  2015
+## 6    20       223   11.5    68 2015-09-30     9    30  2015
+
+Confirmamos que hemos importado correctamente la pesta�a airquality a R.
